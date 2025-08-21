@@ -1,5 +1,3 @@
-use std::cell;
-
 use nannou::prelude::*;
 use rand::prelude::*;
 
@@ -8,7 +6,10 @@ const HEIGHT: u32 = 600;
 const CELL_SIZE: u32 = 25;
 
 fn main() {
-    nannou::app(model).update(update).run();
+    nannou::app(model)
+        .loop_mode(LoopMode::RefreshSync)
+        .update(update)
+        .run();
 }
 
 struct Model {
@@ -37,7 +38,7 @@ fn update(_app: &App, model: &mut Model, _update: Update) {
     let mut cells_to_die: Vec<(usize, usize)> = Vec::new();
     let mut cells_to_spawn: Vec<(usize, usize)> = Vec::new();
     for (row_index, row) in model.cells.iter().enumerate() {
-        for (column_index, cell) in row.iter().enumerate() {
+        for (column_index, _cell) in row.iter().enumerate() {
             let neighbours = get_cell_neighbours(&model.cells, row_index, column_index);
             // Apply rules of Conway's Game of Life
             if model.cells[row_index][column_index] {
